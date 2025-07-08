@@ -1,0 +1,1 @@
+# Gemini Embedding + Pinecone uploader

@@ -1,0 +1,8 @@
+{
+  "name": "walmart-genai-support-frontend",
+  "version": "1.0.0",
+  "description": "React frontend for Walmart GenAI Support",
+  "main": "src/App.tsx",
+  "scripts": {},
+  "dependencies": {}
+}

@@ -1,0 +1,32 @@
+# Python backend dependencies
+# --- Core Python Backend ---
+fastapi
+uvicorn[standard]
+python-dotenv
+
+# --- GenAI & LLMs ---
+langchain
+langchain-google-genai
+google-generativeai
+
+# --- Vector Store ---
+pinecone-client
+tiktoken
+
+# --- Voice to Text (Whisper) ---
+openai-whisper
+ffmpeg-python
+
+# --- Data Handling ---
+pypdf
+pandas
+unstructured
+python-multipart  # for file uploads
+
+# --- Optional Enhancements ---
+# streamlit  # for admin retrain UI
+# Jinja2     # for templated responses (if needed)
+
+# --- Dev & Debugging ---
+# httpx
+# rich

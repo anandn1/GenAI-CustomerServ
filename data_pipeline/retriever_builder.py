@@ -1,0 +1,1 @@
+# Pinecone index setup
