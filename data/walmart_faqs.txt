@@ -388,3 +388,193 @@ Reschedule your InHome delivery.
 Switch it to pickup.
 Cancel your InHome delivery.
 If your InHome order is canceled, we won’t charge you for the order.
+
+Pickup and Delivery Changes and Exceptions
+How do I change my Pickup time?
+You can change your store pick up time if the order is still in process, and it is before the cutoff time. The cutoff time will appear as a banner at the top of your purchase history. Before the cutoff time, you can:
+
+Add or remove items.
+Increase or decrease quantities.
+Allow or disallow substitutions.
+Reschedule the time slot (only once).
+How do I change my order from Delivery to Pickup or, Pickup to Delivery?
+You can’t change the fulfillment type after you place your order and checkout. The only exception is if you get a text message about a delayed scheduled delivery that gives this option.
+
+If you have checked out and then want to change from Pickup to Delivery, or from Delivery to Pickup, you must request to cancel and then place a new order.
+
+What if I am late to my scheduled Pickup?
+If you are late to your scheduled Pickup, and the Pickup window is prior to 8 p.m., you can still check in by 8 p.m. local time on the Pickup date.
+If you are late to check in for your Pickup order and it is after 8 p.m., you should reschedule or cancel and reorder.
+Frozen and perishable items such as produce are stored at the correct temperature until you pick up your order.
+If you don’t pick up the order by the end of the day, the store cancels your order the next day. This releases the authorization hold on your payment method.
+You can reschedule your timeslot, if needed.
+Select the reschedule button on the Order Details page.
+Can someone else pick up my order?
+If you can’t pick up your order, you can add an alternate Pickup person.
+
+During checkout:
+
+Go to the Review Your Order screen. 
+This is the last page before completing your order. 
+Select Checkout all items.
+Select Edit next to Pickup person. 
+Add the Pickup person's name and email address.
+Select Save.
+To change the Pickup person after you’ve placed your order:
+
+Go to your Walmart Account.
+Select Purchase History.
+Navigate to and select the order you want to update.
+Select Edit next to Pickup person.
+Add the Pickup person’s name and email address.
+Select Save.
+Can I change the Pickup store location or Delivery address?
+You may be able to change your Delivery address or Pickup location for a brief time after you place your order.
+
+You will have up to three hours before the Delivery/Pickup window to update the order (express orders excluded).
+You can only change once per order.
+If you try to change to an address outside of the Delivery/Pickup area, you will see this message:
+Sorry – your order can’t be delivered to that address. Please try a different address.
+The option to change the Delivery/Pickup address will also appear when you try to cancel an order.
+To change the Delivery/Pickup address:
+
+Go to your Walmart account.
+Select Order History.
+Navigate to the order you want to update.
+Select Edit beside the store location.
+Select the store where you want to pick up your items.
+Select Save.
+Select a date and time on the Reserve a time page.
+Select Save.
+Enter the last three digits of your card number.
+Note: The order total may change when you switch stores due to taxes and fees. 
+Select Confirm.
+
+Guided Delivery Instructions
+Guided delivery helps you be in control of your delivery. With this feature you can tell us where you'd like your order dropped off.
+
+To ensure a more successful delivery make sure your address has the correct USPS format when you enter it. You can select the address from the drop-down menu when it appears. This helps our drivers deliver your order right where you need it.
+
+To learn more about the USPS format visit: What is the Format and Sequence of Information for the Recipient's Address?
+
+You can also add guided delivery instructions to your order:
+
+Select Review order at checkout.
+Select Add delivery instructions.
+You can provide us the following information:
+Property type (E.g., house, apartment, business, other)
+Gate or call box code
+Delivery notes
+Select Save.
+Select Leave at my door or I’ll sign for my order.
+
+Drone Delivery
+Walmart now offers drone delivery to select customers and Walmart+ members in select markets.
+
+Using the Walmart app, you can choose drone delivery for orders:
+
+Within six miles of an eligible drone delivery store.
+For a combination of select items with a total combined weight of 2.4 pounds to 10 pounds, depending on the drone delivery vendor's capabilities and regulatory approvals.
+Drone delivery availability is generally based on a customer’s delivery address, local weather conditions, feasibility, and each drone delivery vendor’s terms of service. Deliveries take up to 30 minutes to arrive.
+
+See The Walmart Site and App Experience article for more information on delivery fees. Walmart+ members pay zero fees on drone deliveries. 
+
+How to Place a Drone Delivery Order
+Log into your Walmart.com account.
+If address is drone eligible, see the link to drone landing page in site header.
+Add items to your cart.
+Select the Cart icon to check out.
+Select Continue to checkout.
+Select Delivery from store.
+Select Drone Delivery.
+Select a day and time.
+Select Checkout.
+The Walmart app will alert you when your cart reaches the drone delivery weight and volume limits.
+
+You can choose to remove items from your cart to continue with drone delivery or select view more options to change your delivery method.
+Delivery of Your Order
+A drone will deliver your order right to your driveway or yard. After the drone picks up your order from the store, you'll get a notification letting you know the drone is on the way.
+
+You can:
+
+Track your drone delivery order in real time delivery.
+Cancel your drone delivery any time before the drone is out for delivery.
+You must agree to keep your delivery area clear of people and pets for the drone to safely deliver your orders.
+
+Deliveries will be made to a predetermined location of your home:
+
+Front yard
+Backyard
+Driveway
+Drones will use a cable to gently lower the package to that predetermined location.
+
+Delayed or Canceled Pickup Orders
+If there's a delay in your drone delivery, you may get a text message or push notification inviting you to cancel or change to a pickup order. If you pick up your order, we'll refund your delivery fees and tip.
+
+Returns
+Drone delivery orders follow normal return processes. You can choose to Start a Online Return or take the item back to a store.
+
+How to Update Your Address Rooftop Pin
+Your rooftop pin allows us to provide you with better delivery.
+
+Google Maps
+Open your web browser and go to Google Maps. 
+ https://maps.google.com
+Search for your street address.
+If the pin isn’t over your house complete steps 3-9
+Select Suggest an edit on… from the box on the left side of the screen.
+Select Wrong address from the Send feedback window that appears.
+Confirm the address in the Fix an address window.
+Scroll down to the map and select Edit map location.
+Use the mouse to drag the map so the red pin is over your location.
+Select Save.
+Select Submit.
+
+Undeliverable Order Options
+Sometimes a driver can’t deliver an order and it has to be returned to the store. At some stores, when this happens you’ll have the chance to change your Delivery order to a Pickup order in the Walmart app. If this is available, you’ll get an email and a message in your Walmart.com account when the driver updates your order status.
+
+Here’s how the update to your delivery works:
+
+The driver updates the order status and returns the order to the store.
+The store sends an email and an app notification with your available options:
+Reschedule your order.
+Convert your order to Pickup:
+You can choose a timeslot within 24 hours.
+Cancel your order.
+If your order is converted to Pickup, the store will send an email and an app notification when your order is ready for Pickup. When your order is ready you’ll be able to check-in through the app.
+
+Chat With Your Shopper
+The Chat with Shopper feature is available for Walmart.com delivery orders at select stores. You’ll get a notification when your order has live shopping available.
+
+To access the chat:
+
+Select View Order
+Select Chat with Shopper
+Use chat with your shopper to:
+
+Communicate in real time.
+The shopper can share product images in real time.
+You can view the images during the chat but can’t download them.
+Approve or decline substitutions.
+Track your order.
+Visit Track order & chat with your shopper to learn more.
+
+Sparky
+What is Sparky?
+Sparky is an AI-powered assistant that helps you find your favorite items, synthesize reviews, and make informed purchase with confidence. For example, ask Sparky to help you find the best laptop for an art student or the best birthday gift for a two-year-old.
+
+How does Sparky work?
+Sparky uses advanced AI models to interact with you conversationally, understand your shopping needs, suggest relevant products, answer questions, and provide recommendations based on your preferences.
+
+Sparky is designed to help you shop with Walmart. Please do not rely on Sparky for medical, legal, or financial advice.
+
+Where can I access Sparky?
+Soon, you will be able to access Sparky by clicking on the smiley face in the middle of the bottom navigation bar when using the Walmart app. Open Sparky, and ask Sparky a question!
+
+Sparky is only accessible in the Walmart app for US customers. You must be signed into the app to start a conversation with Sparky. 
+
+Is Sparky utilizing my data?
+Sparky only leverages limited customer data to provide you with the best recommendations. Sparky adheres to the data collection and use restrictions within the Walmart Privacy Policy found here.
+
+How do I give feedback about the assistant?
+While Sparky is designed to be as accurate as possible, mistakes can happen. And we always love to hear from our customers! Please provide feedback by giving the conversation a thumbs up or thumbs down once completed, or leaving additional feedback when prompted by Sparky. Need more assistance? Contact the Help Center.
