@@ -32,4 +32,9 @@ python-multipart  # for file uploads
 # --- Dev & Debugging ---
 # httpx
 # rich
-
+# Good
+pinecone-client>=3.0.0
+langchain
+langchain-pinecone
+langchain-google-genai
+python-dotenv
