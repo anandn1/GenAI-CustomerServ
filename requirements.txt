@@ -6,11 +6,12 @@ python-dotenv
 
 # --- GenAI & LLMs ---
 langchain
+langchain-core
 langchain-google-genai
 google-generativeai
 
 # --- Vector Store ---
-pinecone-client
+pinecone
 tiktoken
 
 # --- Voice to Text (Whisper) ---
@@ -19,6 +20,7 @@ ffmpeg-python
 
 # --- Data Handling ---
 pypdf
+pdfplumber
 pandas
 unstructured
 python-multipart  # for file uploads
@@ -30,3 +32,4 @@ python-multipart  # for file uploads
 # --- Dev & Debugging ---
 # httpx
 # rich
+

@@ -1,6 +1,5 @@
 # LangChain chunking logic
 
-
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 from typing import List
