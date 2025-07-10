@@ -4,7 +4,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
 from typing import List
 
-def chunk_documents(docs: List[Document], chunk_size=300, chunk_overlap=50) -> List[Document]:
+def chunk_documents(docs: List[Document], chunk_size=800, chunk_overlap=100) -> List[Document]:
     """
     Takes a list of LangChain Document objects and returns a list of chunked Documents.
     """

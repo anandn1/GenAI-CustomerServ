@@ -1,9 +1,11 @@
 import os
 from dotenv import load_dotenv
 from typing import List
-import pinecone
+from pinecone import Pinecone
+from pinecone import ServerlessSpec
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain.vectorstores import Pinecone as PineconeLangChain
+from langchain_pinecone import PineconeVectorStore
+from uuid import uuid4
 from langchain.schema import Document
 
 # Load env vars
@@ -15,24 +17,33 @@ PINECONE_ENV = os.getenv("PINECONE_ENV")
 PINECONE_INDEX = os.getenv("PINECONE_INDEX")
 
 # Initialize Pinecone (classic v2 style)
-pinecone.init(api_key=PINECONE_API_KEY, environment=PINECONE_ENV)
+pc = Pinecone(api_key=PINECONE_API_KEY)
 
-# Check if index exists
-if PINECONE_INDEX not in pinecone.list_indexes():
-    pinecone.create_index(name=PINECONE_INDEX, dimension=768, metric="cosine")
+if not pc.has_index(PINECONE_INDEX):
+    pc.create_index(
+        name=PINECONE_INDEX,
+        dimension=768,  # Changed from 1536 to 768 to match Gemini embedding output
+        metric="cosine",
+        spec=ServerlessSpec(cloud="aws", region="us-east-1"),
+    )
 
-def embed_and_upload(docs: List[Document]):
+index = pc.Index(PINECONE_INDEX)
+
+def embed_and_upload(docs: List[Document], batch_size=600):
+    """
+    Embeds the documents and uploads them to Pinecone in batches.
+    Each document is a chunk with metadata.
+    """
     print(f"Embedding and uploading {len(docs)} chunks...")
     try:
-        embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-
-        vectorstore = PineconeLangChain.from_documents(
-            documents=docs,
-            embedding=embedding_model,
-            index_name=PINECONE_INDEX
-        )
-
-        print("✅ Upload complete to Pinecone.")
+        embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+        vector_store = PineconeVectorStore(index=index, embedding=embeddings)
+        for i in range(0, len(docs), batch_size):
+            batch = docs[i:i+batch_size]
+            uuids = [str(uuid4()) for _ in range(len(batch))]
+            vector_store.add_documents(documents=batch, ids=uuids)
+            print(f"Uploaded batch {i//batch_size+1} of {((len(docs)-1)//batch_size)+1}")
+        print(f"Uploaded {len(docs)} chunks to Pinecone index '{PINECONE_INDEX}' ✅")
     except Exception as e:
         import traceback
         print("❌ Upload failed:")

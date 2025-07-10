@@ -1,155 +1,48 @@
-2025-07-09 21:54:10,847 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '357cbc5f487a3e8fecfe10ac17345fe0', 'date': 'Wed, 09 Jul 2025 16:24:10 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:12,132 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'd7191cf0a1acd1529068c0f5c386af71', 'date': 'Wed, 09 Jul 2025 16:24:11 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:13,027 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_orders_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'c74f0a2f381bee7e3d96651c437f45d5', 'date': 'Wed, 09 Jul 2025 16:24:12 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:13,894 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_order_items_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'b3755cacc7d9c58f26e54c6d120dbdb1', 'date': 'Wed, 09 Jul 2025 16:24:13 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:14,877 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_order_payments_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '0d4f4dbd519fa0a054604e0aa2d4b850', 'date': 'Wed, 09 Jul 2025 16:24:14 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:15,916 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_order_reviews_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '14221c5ed1ce6b39a8a4033b1000562f', 'date': 'Wed, 09 Jul 2025 16:24:15 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:16,869 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_products_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'cedd169997e6b7b78cbd84f5cadf83e7', 'date': 'Wed, 09 Jul 2025 16:24:16 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:18,254 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_sellers_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '33ef1de217bd9c36dfdc0827ab33919f', 'date': 'Wed, 09 Jul 2025 16:24:17 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:19,850 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\product_category_name_translation.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '95072f834d8c21efa638851fe48cc986', 'date': 'Wed, 09 Jul 2025 16:24:19 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:21,065 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\sample.txt: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'a586a78857f24c391a16ddd611a848ea', 'date': 'Wed, 09 Jul 2025 16:24:20 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:22,553 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\STORE_STATUS_PUBLIC_VIEW_-8827503165297490716.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '46ad4ee3b1f750bbd18da2011dc700fa', 'date': 'Wed, 09 Jul 2025 16:24:22 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:23,808 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\Walmart Policies and Guidelines.pdf: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'ae0138b5fe745510f6767911e4e35c14', 'date': 'Wed, 09 Jul 2025 16:24:23 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:24,903 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\Walmart.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '009769ee0d87f1366995be6154903eaf', 'date': 'Wed, 09 Jul 2025 16:24:24 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:25,978 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\walmart_2018_11_06.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'd31af03249e352040d88d3dbddbf902f;o=1', 'date': 'Wed, 09 Jul 2025 16:24:25 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:27,482 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\walmart_faqs.txt: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '53dad04393f6d8b329d9ee8532f7ac8b', 'date': 'Wed, 09 Jul 2025 16:24:27 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-09 21:54:28,704 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\Walmart_reviews_data.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '4477137de235ac2a88fb5c64680313da', 'date': 'Wed, 09 Jul 2025 16:24:28 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:27,271 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'b7d48229ddffab17c0f7a647b53de2be;o=1', 'date': 'Wed, 09 Jul 2025 18:38:26 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:29,043 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '9cf94b1d589881640450ae3d6e97d288', 'date': 'Wed, 09 Jul 2025 18:38:28 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:30,237 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_orders_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '64aad39311a94bb623590bf6725b7056', 'date': 'Wed, 09 Jul 2025 18:38:29 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:31,345 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_order_items_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'e4dfd705b305c574cd438192bc858825', 'date': 'Wed, 09 Jul 2025 18:38:30 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:32,853 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_order_payments_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '7d82951b7fc4b9b0507f55afeff61cb5', 'date': 'Wed, 09 Jul 2025 18:38:32 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:34,102 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_order_reviews_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'e867e4296d1a4616eabaef1a69649257', 'date': 'Wed, 09 Jul 2025 18:38:33 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:35,168 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_products_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '355bbd8f750c8de25db6eb463acc50c4', 'date': 'Wed, 09 Jul 2025 18:38:34 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:36,294 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_sellers_dataset.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'b83b81f5b0d117d2ffee1e9406c27ee8', 'date': 'Wed, 09 Jul 2025 18:38:35 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:37,370 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\product_category_name_translation.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'eb5603a59631b2955459ed5f0f6232be', 'date': 'Wed, 09 Jul 2025 18:38:36 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:38,975 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\sample.txt: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'dc2cc6335f1cfa393f5d700a30293435', 'date': 'Wed, 09 Jul 2025 18:38:38 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:40,170 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\STORE_STATUS_PUBLIC_VIEW_-8827503165297490716.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '952550f0a878ae17d42d79d5c1c08858', 'date': 'Wed, 09 Jul 2025 18:38:39 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:41,174 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\Walmart Policies and Guidelines.pdf: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '5e5c7f951d6ebd326d5aab290b1fb148', 'date': 'Wed, 09 Jul 2025 18:38:40 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:42,149 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\Walmart.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '3391803c2586acea03ed810707905944', 'date': 'Wed, 09 Jul 2025 18:38:41 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:43,131 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\walmart_2018_11_06.csv: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': '227b5d8493b5fad99cfbd3a939ec0339', 'date': 'Wed, 09 Jul 2025 18:38:42 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
-2025-07-10 00:08:44,393 - ERROR - Failed to ingest c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\walmart_faqs.txt: (404)
-Reason: Not Found
-HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2024-04', 'x-cloud-trace-context': 'a2195fe2ea6d2a861b321b5c5d02e399', 'date': 'Wed, 09 Jul 2025 18:38:43 GMT', 'server': 'Google Frontend', 'Content-Length': '30', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
-HTTP response body: Resource gcp-starter not found
-
+2025-07-10 16:52:53,025 - INFO - Ingestion complete for c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 16:52:55,857 - INFO - Loaded 19 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 16:52:58,281 - INFO - Chunked into 218679 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 16:54:05,589 - INFO - Loaded 3 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 16:54:05,898 - INFO - Chunked into 33149 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 16:54:39,701 - INFO - Ingestion complete for c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 16:54:42,923 - INFO - Loaded 19 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 16:55:53,973 - INFO - Loaded 5 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 16:55:54,267 - INFO - Chunked into 33148 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 16:56:29,055 - INFO - Ingestion complete for c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 16:56:32,016 - INFO - Loaded 29 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 16:59:04,692 - INFO - Loaded 5 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 16:59:04,988 - INFO - Chunked into 33148 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:02:12,898 - INFO - Loaded 5 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:02:13,198 - INFO - Chunked into 33148 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:02:31,906 - INFO - Ingestion complete for c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:02:34,876 - INFO - Loaded 29 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 17:02:37,315 - INFO - Chunked into 218679 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 17:03:24,778 - INFO - Loaded 5 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:03:24,958 - INFO - Chunked into 12575 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:03:46,913 - INFO - Ingestion complete for c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:03:49,670 - INFO - Loaded 29 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 17:05:48,532 - INFO - Loaded 5 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:05:48,708 - INFO - Chunked into 12575 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:08:39,005 - INFO - Loaded 5 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:08:39,140 - INFO - Chunked into 12575 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:09:21,062 - INFO - Ingestion complete for c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:09:23,886 - INFO - Loaded 29 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 17:09:25,426 - INFO - Chunked into 84281 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 17:09:48,436 - INFO - Loaded 5 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:09:48,574 - INFO - Chunked into 12575 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:10:22,276 - INFO - Ingestion complete for c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:10:25,187 - INFO - Loaded 29 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 17:10:26,711 - INFO - Chunked into 84281 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 17:11:35,478 - INFO - Loaded 3 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:11:35,616 - INFO - Chunked into 12576 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:12:07,655 - INFO - Ingestion complete for c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:12:11,145 - INFO - Loaded 19 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 17:12:12,914 - INFO - Chunked into 84275 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 17:13:00,111 - INFO - Loaded 5 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:13:00,248 - INFO - Chunked into 12575 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:13:28,421 - INFO - Ingestion complete for c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:13:31,298 - INFO - Loaded 29 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 17:13:32,810 - INFO - Chunked into 84281 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_geolocation_dataset.csv
+2025-07-10 17:15:39,139 - INFO - Loaded 5 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:15:39,276 - INFO - Chunked into 12575 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:28:20,456 - INFO - Loaded 5 document(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv
+2025-07-10 17:28:20,616 - INFO - Chunked into 12575 chunk(s) from c:\VS Code\My AI ML Models\GenAI-CustomerServ\data_pipeline\..\data\olist_customers_dataset.csv

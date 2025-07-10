@@ -43,7 +43,7 @@ def load_pdf(path):
     return documents
 
 def load_csv(path):
-    # Read a CSV file and convert its contents into a Document object.
+    # Read a CSV file and convert its contents into multiple Document objects, each under the Pinecone size limit.
     base = os.path.basename(path)
     filename_without_ext = os.path.splitext(base)[0]
     metadata = {
@@ -51,10 +51,30 @@ def load_csv(path):
         "filename": base,
         "file_path": path
     }
+    documents = []
     try:
         df = pd.read_csv(path)
-        content = df.to_csv(index=False)
+        csv_str = df.to_csv(index=False)
+        # Pinecone limit is 4,194,304 bytes (4MB). Use 2MB as a safer chunk size.
+        max_bytes = 2 * 1024 * 1024
+        start = 0
+        while start < len(csv_str):
+            chunk = csv_str[start:start+max_bytes]
+            documents.append(Document(page_content=chunk, metadata=metadata))
+            start += max_bytes
     except Exception as e:
         print(f"Error loading CSV file {path}: {e}")
-        content = ""
-    return [Document(page_content=content, metadata=metadata)]
+        documents = [Document(page_content="", metadata=metadata)]
+    return documents
+
+# In embedder.py, update embed_and_upload to upload in batches
+# Example (add this logic in embedder.py):
+# def embed_and_upload(docs: List[Document], batch_size=100):
+#     for i in range(0, len(docs), batch_size):
+#         batch = docs[i:i+batch_size]
+#         PineconeLangChain.from_documents(
+#             documents=batch,
+#             embedding=embedding_model,
+#             index_name=PINECONE_INDEX
+#         )
+#         print(f"Uploaded batch {i//batch_size+1} of {((len(docs)-1)//batch_size)+1}")
