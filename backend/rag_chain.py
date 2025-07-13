@@ -1,5 +1,6 @@
 import os
-import warnings
+#import warnings
+import time 
 import pandas as pd
 from dotenv import load_dotenv
 from pinecone import Pinecone, ServerlessSpec
@@ -13,7 +14,7 @@ from langchain_core.output_parsers import StrOutputParser
 from langdetect import detect, LangDetectException
 
 # Suppress deprecation warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning)
+#warnings.filterwarnings("ignore", category=DeprecationWarning)
 
 # Import all templates
 from backend.utils import prompt_templates
@@ -32,6 +33,7 @@ if not pc.has_index(os.getenv("PINECONE_INDEX")):
         metric="cosine",
         spec=ServerlessSpec(cloud="aws", region="us-east-1"),
     )
+    time.sleep(60)
 
 # Initialize components
 index = pc.Index(os.getenv("PINECONE_INDEX"))
@@ -60,13 +62,6 @@ try:
 except Exception as e:
     print(f"Error connecting to Pinecone: {e}. RAG functionality will be disabled.")
     retriever = None
-
-def shutdown_handler():
-    Pinecone.deinit()
-
-import atexit
-atexit.register(shutdown_handler)
-
 
 # --- CONVERSATIONAL RAG CHAIN DEFINITION ---
 def create_conversational_chain(retriever):
