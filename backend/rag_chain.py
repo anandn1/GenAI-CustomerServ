@@ -4,11 +4,12 @@ from dotenv import load_dotenv
 from langchain.vectorstores import Pinecone
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
-from langchain.embeddings import GoogleGenerativeAIEmbeddings
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.output_parsers import StrOutputParser
 from langdetect import detect, LangDetectException
+from langchain.chat_models import ChatOpenAI
 
 # Import all the new templates from your updated file
 # This assumes your directory structure is `.../backend/utils/prompt_templates.py`
@@ -17,12 +18,25 @@ from backend.utils import prompt_templates
 
 # --- INITIALIZATION ---
 load_dotenv()
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_ENV = os.getenv("PINECONE_ENV")
 PINECONE_INDEX = os.getenv("PINECONE_INDEX")
 
-llm = ChatGoogleGenerativeAI(model="models/gemini-1.5-pro", temperature=0.1)
+llm = ChatOpenAI(
+    openai_api_key=OPENROUTER_API_KEY,
+    openai_api_base="https://openrouter.ai/api/v1",
+    model_name="deepseek/deepseek-r1-0528-qwen3-8b",  # Correct model name
+    temperature=0.1,
+    max_tokens=4000,
+    model_kwargs={
+        "headers": {
+            
+        }
+    }
+)
+
 embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
 try:
