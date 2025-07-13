@@ -1,54 +1,71 @@
 import os
+import warnings
 import pandas as pd
 from dotenv import load_dotenv
-from langchain.vectorstores import Pinecone
+from pinecone import Pinecone, ServerlessSpec
+from langchain_community.vectorstores import Pinecone as PineconeVectorStore
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_community.chat_models import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.output_parsers import StrOutputParser
 from langdetect import detect, LangDetectException
-from langchain.chat_models import ChatOpenAI
 
-# Import all the new templates from your updated file
-# This assumes your directory structure is `.../backend/utils/prompt_templates.py`
-# and you run the script from the project's root directory.
+# Suppress deprecation warnings
+warnings.filterwarnings("ignore", category=DeprecationWarning)
+
+# Import all templates
 from backend.utils import prompt_templates
 
 # --- INITIALIZATION ---
 load_dotenv()
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
-PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
-PINECONE_ENV = os.getenv("PINECONE_ENV")
-PINECONE_INDEX = os.getenv("PINECONE_INDEX")
 
+# Initialize Pinecone client
+pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
+
+# Configure index
+if not pc.has_index(os.getenv("PINECONE_INDEX")):
+    pc.create_index(
+        name=os.getenv("PINECONE_INDEX"),
+        dimension=768,  # Matching Gemini embedding output
+        metric="cosine",
+        spec=ServerlessSpec(cloud="aws", region="us-east-1"),
+    )
+
+# Initialize components
+index = pc.Index(os.getenv("PINECONE_INDEX"))
+embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
+
+# Configure LLM with proper headers
 llm = ChatOpenAI(
-    openai_api_key=OPENROUTER_API_KEY,
+    openai_api_key=os.getenv("OPENROUTER_API_KEY"),
     openai_api_base="https://openrouter.ai/api/v1",
-    model_name="deepseek/deepseek-r1-0528-qwen3-8b",  # Correct model name
+    model="deepseek/deepseek-r1",
     temperature=0.1,
     max_tokens=4000,
-    model_kwargs={
-        "headers": {
-            
-        }
+    default_headers={
+       
     }
 )
 
-embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
-
+# Initialize vectorstore
 try:
-    # Make sure to replace "..." with your actual Pinecone index name if it's not loaded from env
-    vectorstore = Pinecone.from_existing_index(
-        index_name=PINECONE_INDEX,
-        embedding=embedding
+    vectorstore = PineconeVectorStore.from_existing_index(
+        index_name=os.getenv("PINECONE_INDEX"),
+        embedding=embedding,
+        pinecone_index=index  # Pass the initialized index
     )
     retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
 except Exception as e:
     print(f"Error connecting to Pinecone: {e}. RAG functionality will be disabled.")
     retriever = None
+
+def shutdown_handler():
+    Pinecone.deinit()
+
+import atexit
+atexit.register(shutdown_handler)
 
 
 # --- CONVERSATIONAL RAG CHAIN DEFINITION ---
