@@ -28,30 +28,23 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
     setFeedbackType(positive ? 'positive' : 'negative');
     onFeedback?.(positive);
   };
-
-  // Format message for better display
+  // Format message for better display - remove all markdown formatting
   const formatMessage = (text: string) => {
     if (isUser) return text; // Don't format user messages
     
     return text
-      // Convert ### to bold headers
-      .replace(/### \*\*(.*?)\*\*/g, '\n\n📋 $1\n')
-      .replace(/### (.*?)(?=\n|$)/g, '\n\n📋 $1\n')
-      // Convert #### to sub-headers
-      .replace(/#### \*\*(.*?)\*\*/g, '\n\n🔹 $1\n')
-      .replace(/#### (.*?)(?=\n|$)/g, '\n\n🔹 $1\n')
-      // Convert **bold** to emphasized text
-      .replace(/\*\*(.*?)\*\*/g, '• $1')
-      // Convert --- to section dividers
-      .replace(/---/g, '\n' + '─'.repeat(40) + '\n')
-      // Improve bullet points
-      .replace(/- \*\*(.*?)\*\*:/g, '• $1:')
-      .replace(/- (.*?):/g, '• $1:')
-      // Add spacing around numbered lists
-      .replace(/(\d+)\. \*\*(.*?)\*\*/g, '\n$1. $2')
-      .replace(/(\d+)\. (.*?)(?=\n|$)/g, '\n$1. $2')
-      // Clean up multiple newlines
-      .replace(/\n{3,}/g, '\n\n')
+      // Remove all markdown formatting
+      .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold
+      .replace(/\*(.*?)\*/g, '$1') // Remove italics
+      .replace(/#{1,6}\s*(.*?)(?=\n|$)/g, '$1') // Remove headers
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links, keep text
+      .replace(/`([^`]+)`/g, '$1') // Remove code formatting
+      .replace(/```[\s\S]*?```/g, '') // Remove code blocks
+      .replace(/^\s*[-*+]\s+/gm, '• ') // Convert bullet points to simple bullets
+      .replace(/^\s*(\d+)\.\s+/gm, '$1. ') // Keep numbered lists clean
+      .replace(/^\s*>\s+/gm, '') // Remove blockquotes
+      .replace(/---+/g, '──────────────────────────') // Convert dividers to simple lines
+      .replace(/\n{3,}/g, '\n\n') // Remove excessive line breaks
       .trim();
   };
 

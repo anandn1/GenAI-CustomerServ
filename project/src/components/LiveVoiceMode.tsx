@@ -109,11 +109,9 @@ export const LiveVoiceMode: React.FC<LiveVoiceModeProps> = ({
       
       // Call callbacks
       onTranscript?.(response.transcript);
-      onResponse?.(response);
-
-      // Speak the response if TTS is enabled
+      onResponse?.(response);      // Speak the response if TTS is enabled
       if (ttsEnabled && response.answer) {
-        speakText(response.answer);
+        speakText(formatResponse(response.answer));
       }
 
     } catch (error) {
@@ -146,13 +144,30 @@ export const LiveVoiceMode: React.FC<LiveVoiceModeProps> = ({
     utteranceRef.current = utterance;
     window.speechSynthesis.speak(utterance);
   }, [selectedLanguage, voiceSettings]);
-
   const stopSpeaking = useCallback(() => {
     if ('speechSynthesis' in window) {
       window.speechSynthesis.cancel();
     }
     setIsSpeaking(false);
   }, []);
+
+  // Format response text to remove markdown
+  const formatResponse = (text: string) => {
+    return text
+      // Remove all markdown formatting
+      .replace(/\*\*(.*?)\*\*/g, '$1') // Remove bold
+      .replace(/\*(.*?)\*/g, '$1') // Remove italics
+      .replace(/#{1,6}\s*(.*?)(?=\n|$)/g, '$1') // Remove headers
+      .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') // Remove links, keep text
+      .replace(/`([^`]+)`/g, '$1') // Remove code formatting
+      .replace(/```[\s\S]*?```/g, '') // Remove code blocks
+      .replace(/^\s*[-*+]\s+/gm, '• ') // Convert bullet points to simple bullets
+      .replace(/^\s*(\d+)\.\s+/gm, '$1. ') // Keep numbered lists clean
+      .replace(/^\s*>\s+/gm, '') // Remove blockquotes
+      .replace(/---+/g, '──────────────────────────') // Convert dividers to simple lines
+      .replace(/\n{3,}/g, '\n\n') // Remove excessive line breaks
+      .trim();
+  };
 
   const toggleListening = () => {
     if (isListening) {
@@ -206,13 +221,11 @@ export const LiveVoiceMode: React.FC<LiveVoiceModeProps> = ({
               <div className="font-medium text-gray-700 dark:text-gray-300 mb-1">You said:</div>
               <div className="text-gray-600 dark:text-gray-400">{currentTranscript}</div>
             </div>
-          )}
-
-          {/* Response Display */}
+          )}          {/* Response Display */}
           {lastResponse && (
             <div className="bg-blue-50 dark:bg-blue-900/30 rounded-lg p-3 mb-4 text-sm">
               <div className="font-medium text-blue-700 dark:text-blue-300 mb-1">AI Response:</div>
-              <div className="text-blue-600 dark:text-blue-400">{lastResponse}</div>
+              <div className="text-blue-600 dark:text-blue-400 whitespace-pre-wrap">{formatResponse(lastResponse)}</div>
             </div>
           )}
 
