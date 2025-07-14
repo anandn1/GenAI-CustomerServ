@@ -2,11 +2,12 @@ import { useState, useCallback, useEffect } from 'react';
 import { ChatHistory } from './components/ChatHistory';
 import { ChatInput } from './components/ChatInput';
 import { VoiceButton } from './components/VoiceButton';
+import { LiveVoiceMode } from './components/LiveVoiceMode';
 import { LanguageSelector } from './components/LanguageSelector';
 import { EscalationBanner } from './components/EscalationBanner';
 import { QuickActions } from './components/QuickActions';
 import { AdminDashboard } from './components/AdminDashboard';
-import { MessageSquare, Mic, Sparkles, BarChart3, Moon, Sun, Wifi, WifiOff } from 'lucide-react';
+import { MessageSquare, Mic, Sparkles, BarChart3, Moon, Sun, Wifi, WifiOff, Radio } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useChat, useVoice, useSentiment, useHealthCheck } from './hooks/useApi';
 
@@ -18,7 +19,7 @@ interface Message {
   isVoiceMessage?: boolean;
 }
 
-type Mode = 'chat' | 'voice';
+type Mode = 'chat' | 'voice' | 'live-voice';
 type Theme = 'light' | 'dark';
 
 function App() {
@@ -262,9 +263,7 @@ function App() {
             onMessageFeedback={handleMessageFeedback}
             selectedLanguage={selectedLanguage}
           />
-        </div>
-
-        {/* Mode Toggle */}
+        </div>        {/* Mode Toggle */}
         <div className={cn("px-4 py-3 border-t", theme === 'dark' ? 'bg-gray-950 border-gray-800' : 'bg-white border-gray-200')}>
           <div className="flex items-center justify-center gap-2 mb-4">
             <button
@@ -292,9 +291,23 @@ function App() {
               <Mic className="w-4 h-4" />
               Voice Mode
             </button>
-          </div>          {/* Input Area */}
+
+            <button
+              onClick={() => setMode('live-voice')}
+              className={cn(
+                "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
+                mode === 'live-voice'
+                  ? 'bg-[#0071CE] text-white'
+                  : (theme === 'dark' ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200')
+              )}
+            >
+              <Radio className="w-4 h-4" />
+              Live Voice
+            </button>
+          </div>{/* Input Area */}
           <div className="flex items-end gap-4">
-            {mode === 'chat' ? (              <div className="flex-1">
+            {mode === 'chat' ? (
+              <div className="flex-1">
                 <ChatInput
                   onSendMessage={handleSendMessage}
                   isLoading={isChatLoading}
@@ -305,7 +318,9 @@ function App() {
                   selectedLanguage={selectedLanguage}
                   userId={userId}
                 />
-              </div>            ) : (              <div className="flex-1 flex justify-center items-end">
+              </div>
+            ) : mode === 'voice' ? (
+              <div className="flex-1 flex justify-center items-end">
                 <VoiceButton
                   variant="full"
                   onTranscription={handleVoiceTranscription}
@@ -314,7 +329,22 @@ function App() {
                   selectedLanguage={selectedLanguage}
                   userId={userId}
                 />
-              </div>            )}
+              </div>
+            ) : (
+              <div className="flex-1">
+                <LiveVoiceMode
+                  selectedLanguage={selectedLanguage}
+                  userId={userId}
+                  onClose={() => setMode('chat')}
+                  onTranscript={(text) => {
+                    addMessage(text, true, true);
+                  }}
+                  onResponse={(response) => {
+                    handleVoiceResponse(response);
+                  }}
+                />
+              </div>
+            )}
           </div>
         </div>      </main>
 
