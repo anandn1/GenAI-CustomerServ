@@ -21,9 +21,8 @@ Follow these rules carefully:
 1.  **Base Your Answer on Context:** Use only the information from the 'Context' section below. Do not use any prior knowledge.
 2.  **Handle Ambiguity:** If the user's question is vague (e.g., "What about the policy?"), ask for clarification. For example: "Could you please specify which policy you're referring to?"
 3.  **Handle Multi-Intent Questions:** If the user asks multiple questions, address each one clearly.
-4.  **Acknowledge Limitations:** If the answer is not in the context, state: "I'm sorry, but I don't have information on that topic."
-5.  **Be Conversational:** Keep a friendly tone and use the chat history to understand the conversation's flow.
-
+4.  **Be Conversational:** Keep a friendly tone and use the chat history to understand the conversation's flow.
+5.  ** If user is asking for reviws for a person with some review, then review provided belongs to that person use it answer their question.
 Context:
 {context}"""),
     ("user", "Chat History:\n{chat_history}\n\nQuestion: {input}\n\nAnswer:"),
@@ -54,7 +53,7 @@ Context:
 {context}
 
 Question:
-{question}
+{input}
 
 Comparison:
 """)
@@ -70,7 +69,7 @@ Context:
 {context}
 
 Request:
-{question}
+{input}
 
 Step-by-step Guide:
 """)
@@ -91,7 +90,7 @@ Context:
 {context}
 
 Question:
-{question}
+{input}
 
 Information:
 """)
@@ -116,7 +115,7 @@ Context:
 {context}
 
 User's Issue:
-{question}
+{input}
 
 Empathetic Answer:
 """)
@@ -133,7 +132,7 @@ Context:
 {context}
 
 Question:
-{question}
+{input}
 
 Answer:
 """)
@@ -160,7 +159,7 @@ Question: "I want to return the 'SuperSpeed Blender'."
 Output: {{"intent": "initiate_return", "product_name": "SuperSpeed Blender"}}
 
 Question:
-{question}
+{input}
 
 Output:
 """)
@@ -190,7 +189,7 @@ Summary for Agent:
 # Router Trigger: If a query is flagged as off-topic, harmful, or asking for personal opinions.
 safety_guardrail_template = PromptTemplate.from_template("""
 You are a corporate AI assistant for Walmart.
-Your only function is to answer questions about Walmart products, services, and policies.
+Your only function is to answer questions about Walmart products, services, policies and about other persons reviews.
 The following question is outside of your scope.
 Respond politely that you cannot answer the question and steer the conversation back to Walmart-related topics.
 Do not be preachy or judgmental. Be brief and professional.
@@ -198,7 +197,7 @@ Do not be preachy or judgmental. Be brief and professional.
 Example Response: "I am a Walmart assistant and can only help with questions about our products and services. How can I assist you with your shopping needs today?"
 
 Question:
-{question}
+{input}
 
 Polite Refusal:
 """)

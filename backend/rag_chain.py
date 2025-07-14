@@ -65,10 +65,13 @@ except Exception as e:
     retriever = None
 
 # --- CONVERSATIONAL RAG CHAIN DEFINITION ---
-def create_conversational_chain(retriever):
-    if not retriever: return None
+def create_conversational_chain(retriever, answer_prompt=None):
+    if not retriever: 
+        return None
+    if not answer_prompt:
+        answer_prompt = prompt_templates.conversational_rag_template  # Default
     history_aware_retriever = create_history_aware_retriever(llm, retriever, prompt_templates.history_rephrase_template)
-    question_answer_chain = create_stuff_documents_chain(llm, prompt_templates.conversational_rag_template)
+    question_answer_chain = create_stuff_documents_chain(llm, answer_prompt)
     return create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
 
@@ -91,7 +94,7 @@ def translate_text(text: str, target_lang: str) -> str:
 
 def is_off_topic(query: str) -> bool:
     """Uses the LLM to quickly determine if a query is off-topic."""
-    prompt = f"""You are a topic classifier. Your only job is to determine if the user's query is related to Walmart, its products, or customer service. Respond with 'RELATED' if it is, and 'OFF_TOPIC' if it is not. Query: "{query}" """
+    prompt = f"""You are a topic classifier. Your only job is to determine if the user's query is related to Walmart, its products, or customer service or about some specific person review. Respond with 'RELATED' if it is, and 'OFF_TOPIC' if it is not. Query: "{query}" """
     response = llm.invoke(prompt).content.strip().upper()
     return "OFF_TOPIC" in response
 
@@ -119,44 +122,49 @@ def prompt_router(query: str):
 
 # --- CORE LOGIC FUNCTION ---
 def get_smart_answer(query: str, chat_history: list):
-    """Analyzes the query using a router and directs it to the appropriate chain."""
     chosen_prompt, category = prompt_router(query)
 
-    if category in ["guardrail", "escalation"]:
+    # 1. Handle non-RAG categories (guardrail)
+    if category == "guardrail":
         chain = chosen_prompt | llm | StrOutputParser()
-        response_text = chain.invoke({"question": query})
+        response_text = chain.invoke({"input": query, "chat_history": chat_history})
         new_chat_history = chat_history + [HumanMessage(content=query), AIMessage(content=response_text)]
         return response_text, [], category, new_chat_history
 
-    if category in ["standard_rag", "comparison_rag", "guide_rag"]:
-        if not conversational_rag_chain:
-            return "I apologize, but I'm currently unable to access my knowledge base. Please try again later or contact customer service directly.", [], "error", chat_history
+    # 2. Handle RAG categories (including escalation)
+    if not retriever:
+        return "Knowledge base unavailable", [], "error", chat_history
 
-        original_lang = detect_language(query)
-        query_en = translate_text(query, 'en') if original_lang != 'en' else query
+    # Create chain with custom prompt
+    rag_chain = create_conversational_chain(retriever, answer_prompt=chosen_prompt)
+    
+    # Language handling
+    original_lang = detect_language(query)
+    query_en = translate_text(query, 'en') if original_lang != 'en' else query
 
-        try:
-            # For these RAG-based tasks, we use the main conversational chain.
-            # Its detailed system prompt is robust enough to handle comparisons and guides well.
-            result = conversational_rag_chain.invoke({"input": query_en, "chat_history": chat_history})
-            answer = result["answer"]
-            sources = result.get("context", [])
-        except Exception as e:
-            print(f"Error invoking RAG chain: {e}")
-            return "I apologize, but I encountered an error while processing your request. Please try again or contact customer service.", [], "error", chat_history
-       
+    try:
+        # Let the chain handle retrieval and stuffing of context
+        result = rag_chain.invoke({
+            "input": query_en,
+            "chat_history": chat_history
+        })
+        answer = result["answer"]
+        sources = result.get("context", [])
+        
         if original_lang != 'en':
             answer = translate_text(answer, original_lang)
-
+            
         new_chat_history = chat_history + [HumanMessage(content=query), AIMessage(content=answer)]
         return answer, sources, category, new_chat_history
-
-    return "I'm not sure how to handle that request.", [], "error", chat_history
+        
+    except Exception as e:
+        error_msg = f"Error: {str(e)}"
+        return error_msg, [], "error", chat_history
 
 
 # --- ADVANCED EVALUATION & MAIN EXECUTION (Restored from your original code) ---
 
-def evaluate_with_llm(prompt: str, response: str, criteria: str) -> (bool, str):
+def evaluate_with_llm(prompt: str, response: str, criteria: str) -> tuple[bool, str]:
     """
     Uses an LLM to evaluate if a response meets specific criteria.
     Returns a tuple of (is_pass: bool, justification: str).
