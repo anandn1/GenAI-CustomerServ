@@ -21,7 +21,7 @@ import sys
 from typing import List, Dict, Tuple, Optional
 
 # Import all templates
-from backend.utils import prompt_templates
+from utils import prompt_templates
 
 # --- INITIALIZATION ---
 load_dotenv()
@@ -81,8 +81,24 @@ class ChatHistoryManager:
             if i + 1 < len(chat_history):
                 human_msg = chat_history[i]
                 ai_msg = chat_history[i + 1]
-                formatted_history.append(f"Human: {human_msg.content}")
-                formatted_history.append(f"Assistant: {ai_msg.content}")
+                
+                # Handle both LangChain message objects and dictionary objects
+                if hasattr(human_msg, 'content'):
+                    human_content = human_msg.content
+                elif isinstance(human_msg, dict):
+                    human_content = human_msg.get('content', str(human_msg))
+                else:
+                    human_content = str(human_msg)
+                
+                if hasattr(ai_msg, 'content'):
+                    ai_content = ai_msg.content
+                elif isinstance(ai_msg, dict):
+                    ai_content = ai_msg.get('content', str(ai_msg))
+                else:
+                    ai_content = str(ai_msg)
+                
+                formatted_history.append(f"Human: {human_content}")
+                formatted_history.append(f"Assistant: {ai_content}")
 
         return "\n".join(formatted_history)
 
@@ -95,9 +111,7 @@ class ChatHistoryManager:
     def extract_context_from_history(self, chat_history: List, current_query: str) -> str:
         """Extract relevant context from chat history for follow-up questions"""
         if not chat_history:
-            return current_query
-
-        # Get the last few exchanges for context
+            return current_query        # Get the last few exchanges for context
         recent_history = chat_history[-6:] if len(chat_history) > 6 else chat_history
 
         # Check if current query is likely a follow-up
@@ -113,9 +127,15 @@ class ChatHistoryManager:
             # Extract the last topic discussed
             last_ai_response = ""
             for msg in reversed(recent_history):
+                # Handle both LangChain message objects and dictionary objects
                 if isinstance(msg, AIMessage):
                     last_ai_response = msg.content
                     break
+                elif isinstance(msg, dict):
+                    # Check if this is an AI message from dictionary format
+                    if msg.get('type') == 'ai' or 'content' in msg:
+                        last_ai_response = msg.get('content', '')
+                        break
 
             # Add context to the query
             if last_ai_response:

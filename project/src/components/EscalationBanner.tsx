@@ -1,6 +1,5 @@
 import React from 'react';
 import { AlertTriangle, User } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 interface EscalationBannerProps {
   isVisible: boolean;

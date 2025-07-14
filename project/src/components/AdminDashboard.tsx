@@ -1,6 +1,5 @@
 import React from 'react';
 import { BarChart3, Users, MessageSquare, TrendingUp, AlertTriangle, Clock } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 interface DashboardStats {
   totalChats: number;

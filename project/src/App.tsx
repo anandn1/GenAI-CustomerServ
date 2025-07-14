@@ -1,93 +1,149 @@
-import React, { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { ChatHistory } from './components/ChatHistory';
 import { ChatInput } from './components/ChatInput';
-import { VoiceRecorder } from './components/VoiceRecorder';
+import { VoiceButton } from './components/VoiceButton';
 import { LanguageSelector } from './components/LanguageSelector';
 import { EscalationBanner } from './components/EscalationBanner';
 import { QuickActions } from './components/QuickActions';
 import { AdminDashboard } from './components/AdminDashboard';
-import { MessageSquare, Mic, Sparkles, BarChart3, Moon, Sun } from 'lucide-react';
+import { MessageSquare, Mic, Sparkles, BarChart3, Moon, Sun, Wifi, WifiOff } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useChat, useVoice, useSentiment, useHealthCheck } from './hooks/useApi';
 
 interface Message {
   id: string;
   text: string;
   isUser: boolean;
   timestamp: Date;
+  isVoiceMessage?: boolean;
 }
 
 type Mode = 'chat' | 'voice';
+type Theme = 'light' | 'dark';
 
 function App() {
   // Core state
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [mode, setMode] = useState<Mode>('chat');
+  const [messages, setMessages] = useState<Message[]>([]);  const [mode, setMode] = useState<Mode>('chat');
   const [selectedLanguage, setSelectedLanguage] = useState('en-US');
-  const [isListening, setIsListening] = useState(false);
   const [error, setError] = useState('');
 
   // Enhanced UX state
   const [showEscalation, setShowEscalation] = useState(false);
   const [showQuickActions, setShowQuickActions] = useState(true);
-  const [showAdminDashboard, setShowAdminDashboard] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
-  const [currentTranscript, setCurrentTranscript] = useState('');
+  const [showAdminDashboard, setShowAdminDashboard] = useState(false);  const [theme, setTheme] = useState<Theme>('light');
   const [negativeFeedbackCount, setNegativeFeedbackCount] = useState(0);
   const [totalInteractions, setTotalInteractions] = useState(0);
+  const [userId] = useState(() => `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`);
+  const [chatHistory, setChatHistory] = useState<any[]>([]);  // API hooks
+  const { sendMessage, isLoading: isChatLoading, error: chatError } = useChat();
+  const { error: voiceError } = useVoice();
+  const { analyzeSentiment } = useSentiment();
+  const { isHealthy, isChecking } = useHealthCheck();
 
-  const addMessage = useCallback((text: string, isUser: boolean) => {
+  // Theme toggle handler
+  const toggleTheme = useCallback(() => {
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+    if (typeof document !== 'undefined') {
+      document.documentElement.classList.toggle('dark');
+    }
+  }, []);
+
+  // Unified error state
+  useEffect(() => {
+    if (chatError) setError(chatError);
+    if (voiceError) setError(voiceError);
+  }, [chatError, voiceError]);
+  const addMessage = useCallback((text: string, isUser: boolean, isVoiceMessage = false) => {
     const newMessage: Message = {
       id: Date.now().toString(),
       text,
       isUser,
       timestamp: new Date(),
+      isVoiceMessage,
     };
     setMessages(prev => [...prev, newMessage]);
     setTotalInteractions(prev => prev + 1);
-  }, []);
-
-  const simulateAIResponse = useCallback(async (userMessage: string) => {
-    setIsLoading(true);
-    
-    // Simulate AI processing delay
-    await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 2000));
-    
+  }, []);const handleAIResponse = useCallback(async (userMessage: string) => {
     // Hide quick actions after first interaction
     if (showQuickActions && messages.length === 0) {
       setShowQuickActions(false);
     }
     
-    const responses = [
-      "I'd be happy to help you with that! Let me check our current inventory and policies for you.",
-      "That's a great question! Based on Walmart's current offerings, here's what I can tell you...",
-      "I understand your concern. Let me provide you with the most up-to-date information about this.",
-      "Thank you for choosing Walmart! I can help you find exactly what you're looking for.",
-      "I'll connect you with the right information. Here's what I found about your inquiry...",
-    ];
-    
-    const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-    addMessage(randomResponse, false);
-    setIsLoading(false);
-  }, [addMessage, messages.length, showQuickActions]);
-
+    try {
+      const response = await sendMessage({
+        user_id: userId,
+        message: userMessage,
+        chat_history: chatHistory,
+        language: selectedLanguage.split('-')[0], // Convert 'en-US' to 'en'
+      });
+      
+      if (response && response.answer) {
+        addMessage(response.answer, false);
+        setChatHistory(response.chat_history || []);
+        
+        // Check sentiment for escalation
+        const sentiment = await analyzeSentiment(userMessage);
+        if (sentiment && sentiment.sentiment === 'negative') {
+          setNegativeFeedbackCount(prev => {
+            const newCount = prev + 1;
+            if (newCount >= 2) {
+              setShowEscalation(true);
+            }
+            return newCount;
+          });
+        }
+      } else {
+        setError('Received empty response from AI. Please try again.');
+      }
+    } catch (err) {
+      console.error('Error in handleAIResponse:', err);
+      setError('Failed to get response from AI. Please try again.');
+    }
+  }, [addMessage, messages.length, showQuickActions, sendMessage, userId, chatHistory, selectedLanguage, analyzeSentiment]);
   const handleSendMessage = useCallback((message: string) => {
     if (!message.trim()) return;
     
+    // Clear any previous errors
+    setError('');
+    
     addMessage(message, true);
-    simulateAIResponse(message);
-  }, [addMessage, simulateAIResponse]);
-
-  const handleVoiceTranscription = useCallback((text: string) => {
+    handleAIResponse(message);
+  }, [addMessage, handleAIResponse]);  const handleVoiceTranscription = useCallback(async (text: string) => {
+    // This function is now mainly used for fallback scenarios where only transcription is available
+    // The main voice flow uses handleVoiceResponse which includes both transcript and answer
     if (text.trim()) {
-      handleSendMessage(text);
+      addMessage(text, true);
+      handleAIResponse(text);
     }
-  }, [handleSendMessage]);
-
+  }, [addMessage, handleAIResponse]);
   const handleVoiceError = useCallback((errorMessage: string) => {
     setError(errorMessage);
     setTimeout(() => setError(''), 5000);
-  }, []);
+  }, []);  const handleVoiceResponse = useCallback((response: any) => {
+    // Add the user's voice transcript to the chat first
+    if (response.transcript && response.transcript.trim()) {
+      addMessage(response.transcript, true, true); // true for isVoiceMessage
+    }
+    
+    // Then add the AI's response to the chat
+    if (response.answer && response.answer.trim()) {
+      addMessage(response.answer, false);
+    }
+    
+    // Update chat history
+    setChatHistory(response.chat_history);
+    
+    // Check sentiment for escalation if needed
+    if (response.category === 'negative') {
+      setNegativeFeedbackCount(prev => {
+        const newCount = prev + 1;
+        if (newCount >= 2) {
+          setShowEscalation(true);
+        }
+        return newCount;
+      });
+    }
+  }, [addMessage]);
 
   const handleMessageFeedback = useCallback((messageId: string, positive: boolean) => {
     if (!positive) {
@@ -118,48 +174,69 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className={cn("min-h-screen flex flex-col", theme === 'dark' ? 'bg-gray-900' : 'bg-gray-50') + ' ' + (theme === 'dark' ? 'dark' : '')}>
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-4 py-3">
+      <header className={cn("border-b px-4 py-3", theme === 'dark' ? 'bg-gray-950 border-gray-800' : 'bg-white border-gray-200')}>
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-[#0071CE] rounded-lg flex items-center justify-center">
               <Sparkles className="w-5 h-5 text-white" />
             </div>
             <div>
-              <h1 className="text-xl font-semibold text-gray-800">Walmart Whisper</h1>
-              <p className="text-sm text-gray-600">AI Assistant</p>
+              <h1 className={cn("text-xl font-semibold", theme === 'dark' ? 'text-gray-100' : 'text-gray-800')}>Walmart Whisper</h1>
+              <p className={cn("text-sm", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>AI Assistant</p>
             </div>
           </div>
           
           <div className="flex items-center gap-3">
+            {/* Health Status Indicator */}
+            <div className="flex items-center gap-1">
+              {isHealthy ? (
+                <Wifi className="w-4 h-4 text-green-500" />
+              ) : (
+                <WifiOff className="w-4 h-4 text-red-500" />
+              )}
+              <span className={cn("text-xs", theme === 'dark' ? 'text-gray-400' : 'text-gray-600')}>
+                {isChecking ? 'Checking...' : isHealthy ? 'Online' : 'Offline'}
+              </span>
+            </div>
+            
             <button
               onClick={() => setShowAdminDashboard(true)}
-              className="p-2 text-gray-600 hover:text-[#0071CE] hover:bg-gray-100 rounded-lg transition-colors"
+              className={cn(
+                'p-2 rounded-lg transition-colors',
+                theme === 'dark' ? 'text-gray-400 hover:text-blue-300 hover:bg-gray-800' : 'text-gray-600 hover:text-[#0071CE] hover:bg-gray-100'
+              )}
               aria-label="Open admin dashboard"
             >
               <BarChart3 className="w-5 h-5" />
             </button>
             
             <button
-              onClick={() => setDarkMode(!darkMode)}
-              className="p-2 text-gray-600 hover:text-[#0071CE] hover:bg-gray-100 rounded-lg transition-colors"
+              onClick={toggleTheme}
+              className={cn(
+                'p-2 rounded-lg border transition-colors',
+                theme === 'dark' ? 'bg-gray-800 border-gray-700 text-yellow-300 hover:bg-gray-700' : 'bg-gray-100 border-gray-200 text-gray-700 hover:bg-gray-200'
+              )}
               aria-label="Toggle dark mode"
             >
-              {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              {theme === 'dark' ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
             
-            <LanguageSelector selectedLanguage={selectedLanguage} onLanguageChange={setSelectedLanguage} />
+            <LanguageSelector 
+              selectedLanguage={selectedLanguage} 
+              onLanguageChange={setSelectedLanguage} 
+            />
           </div>
         </div>
       </header>
 
       {/* Error Banner */}
       {error && (
-        <div className="bg-red-50 border-l-4 border-red-400 p-4 mx-4 mt-4 rounded">
+        <div className={cn("border-l-4 p-4 mx-4 mt-4 rounded", theme === 'dark' ? 'bg-red-900 border-red-700' : 'bg-red-50 border-red-400')}>
           <div className="flex">
             <div className="ml-3">
-              <p className="text-sm text-red-700">{error}</p>
+              <p className={cn("text-sm", theme === 'dark' ? 'text-red-200' : 'text-red-700')}>{error}</p>
             </div>
           </div>
         </div>
@@ -175,30 +252,28 @@ function App() {
       <QuickActions
         isVisible={showQuickActions && messages.length === 0}
         onActionClick={handleQuickAction}
-      />
-
-      {/* Main Content */}
-      <main className="flex-1 flex flex-col max-w-4xl mx-auto w-full">
+      />      {/* Main Content */}
+      <main className="flex-1 flex flex-col max-w-4xl mx-auto w-full min-h-0">
         {/* Chat History */}
-        <div className="flex-1 min-h-0">
+        <div className="flex-1 min-h-0 px-4 overflow-hidden">
           <ChatHistory
             messages={messages}
-            isLoading={isLoading}
+            isLoading={isChatLoading}
             onMessageFeedback={handleMessageFeedback}
             selectedLanguage={selectedLanguage}
           />
         </div>
 
         {/* Mode Toggle */}
-        <div className="px-4 py-3 border-t border-gray-200 bg-white">
+        <div className={cn("px-4 py-3 border-t", theme === 'dark' ? 'bg-gray-950 border-gray-800' : 'bg-white border-gray-200')}>
           <div className="flex items-center justify-center gap-2 mb-4">
             <button
               onClick={() => setMode('chat')}
               className={cn(
                 "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
                 mode === 'chat'
-                  ? "bg-[#0071CE] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? 'bg-[#0071CE] text-white'
+                  : (theme === 'dark' ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200')
               )}
             >
               <MessageSquare className="w-4 h-4" />
@@ -210,66 +285,42 @@ function App() {
               className={cn(
                 "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors",
                 mode === 'voice'
-                  ? "bg-[#0071CE] text-white"
-                  : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                  ? 'bg-[#0071CE] text-white'
+                  : (theme === 'dark' ? 'bg-gray-800 text-gray-300 hover:bg-gray-700' : 'bg-gray-100 text-gray-600 hover:bg-gray-200')
               )}
             >
               <Mic className="w-4 h-4" />
               Voice Mode
             </button>
-          </div>
-
-          {/* Input Area */}
-          <div className="flex items-center gap-4">
-            {mode === 'chat' ? (
-              <div className="flex-1">
+          </div>          {/* Input Area */}
+          <div className="flex items-end gap-4">
+            {mode === 'chat' ? (              <div className="flex-1">
                 <ChatInput
                   onSendMessage={handleSendMessage}
-                  isLoading={isLoading}
+                  isLoading={isChatLoading}
                   placeholder="Ask a question or type your message..."
+                  onVoiceTranscription={handleVoiceTranscription}
+                  onVoiceError={handleVoiceError}
+                  onVoiceResponse={handleVoiceResponse}
+                  selectedLanguage={selectedLanguage}
+                  userId={userId}
                 />
-              </div>
-            ) : (
-              <div className="flex-1 flex justify-center">
-                <VoiceRecorder
+              </div>            ) : (              <div className="flex-1 flex justify-center items-end">
+                <VoiceButton
+                  variant="full"
                   onTranscription={handleVoiceTranscription}
                   onError={handleVoiceError}
-                  isListening={isListening}
-                  setIsListening={setIsListening}
+                  onVoiceResponse={handleVoiceResponse}
                   selectedLanguage={selectedLanguage}
-                  onTranscriptUpdate={setCurrentTranscript}
-                  onTranscriptUpdate={setCurrentTranscript}
+                  userId={userId}
                 />
-              </div>
-            )}
-            
-            {mode === 'chat' && (
-              <VoiceRecorder
-                onTranscription={handleVoiceTranscription}
-                onError={handleVoiceError}
-                isListening={isListening}
-                setIsListening={setIsListening}
-                selectedLanguage={selectedLanguage}
-              />
-            )}
+              </div>            )}
           </div>
-        </div>
-      </main>
-
-      {/* Real-time Transcription Display */}
-      {isListening && currentTranscript && (
-        <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-w-md mx-4 z-10">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
-            <span className="text-xs font-medium text-gray-600">Live Transcription</span>
-          </div>
-          <p className="text-sm text-gray-800">"{currentTranscript}"</p>
-        </div>
-      )}
+        </div>      </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-gray-200 px-4 py-3 text-center">
-        <p className="text-xs text-gray-500">
+      <footer className={cn("border-t px-4 py-3 text-center", theme === 'dark' ? 'bg-gray-950 border-gray-800' : 'bg-white border-gray-200')}>
+        <p className={cn("text-xs", theme === 'dark' ? 'text-gray-500' : 'text-gray-500')}>
           Walmart Whisper - AI Assistant • Powered by advanced language models
         </p>
       </footer>

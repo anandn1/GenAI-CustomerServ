@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Volume2, VolumeX, Play, Pause } from 'lucide-react';
+import { Volume2, Pause } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface VoiceResponsePlayerProps {

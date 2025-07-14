@@ -17,6 +17,12 @@ tiktoken
 # --- Voice to Text (Whisper) ---
 openai-whisper
 ffmpeg-python
+pyaudio
+keyboard
+numpy
+wave
+torch
+torchaudio
 
 # --- Data Handling ---
 pypdf

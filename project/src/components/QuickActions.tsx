@@ -60,9 +60,9 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
   if (!isVisible) return null;
 
   return (
-    <div className="px-4 py-3 bg-white border-t border-gray-100">
+    <div className="px-4 py-3 bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800">
       <div className="max-w-4xl mx-auto">
-        <h3 className="text-sm font-medium text-gray-700 mb-3">Quick Actions</h3>
+        <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Quick Actions</h3>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2">
           {quickActions.map((action) => (
             <button
@@ -70,9 +70,10 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
               onClick={() => onActionClick(action.query)}
               className={cn(
                 "flex flex-col items-center gap-2 p-3 rounded-lg transition-all duration-200",
-                "bg-gray-50 hover:bg-[#0071CE]/5 hover:border-[#0071CE]/20 border border-transparent",
-                "focus:outline-none focus:ring-2 focus:ring-[#0071CE] focus:ring-offset-1",
-                "text-gray-700 hover:text-[#0071CE]"
+                "bg-gray-50 dark:bg-gray-800 hover:bg-[#0071CE]/5 dark:hover:bg-[#0071CE]/10",
+                "hover:border-[#0071CE]/20 dark:hover:border-[#0071CE]/30 border border-transparent dark:border-gray-700",
+                "focus:outline-none focus:ring-2 focus:ring-[#0071CE] focus:ring-offset-1 dark:focus:ring-offset-gray-900",
+                "text-gray-700 dark:text-gray-300 hover:text-[#0071CE] dark:hover:text-[#0071CE]"
               )}
             >
               <div className="w-8 h-8 flex items-center justify-center">

@@ -1,5 +1,5 @@
 import React from 'react';
-import { User, Bot, ThumbsUp, ThumbsDown } from 'lucide-react';
+import { User, Bot, ThumbsUp, ThumbsDown, Mic } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { VoiceResponsePlayer } from './VoiceResponsePlayer';
 
@@ -9,6 +9,7 @@ interface ChatMessageProps {
   timestamp: Date;
   onFeedback?: (positive: boolean) => void;
   language?: string;
+  isVoiceMessage?: boolean;
 }
 
 export const ChatMessage: React.FC<ChatMessageProps> = ({
@@ -17,6 +18,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
   timestamp,
   onFeedback,
   language = 'en-US',
+  isVoiceMessage = false,
 }) => {
   const [feedbackGiven, setFeedbackGiven] = React.useState(false);
   const [feedbackType, setFeedbackType] = React.useState<'positive' | 'negative' | null>(null);
@@ -27,33 +29,72 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
     onFeedback?.(positive);
   };
 
+  // Format message for better display
+  const formatMessage = (text: string) => {
+    if (isUser) return text; // Don't format user messages
+    
+    return text
+      // Convert ### to bold headers
+      .replace(/### \*\*(.*?)\*\*/g, '\n\n📋 $1\n')
+      .replace(/### (.*?)(?=\n|$)/g, '\n\n📋 $1\n')
+      // Convert #### to sub-headers
+      .replace(/#### \*\*(.*?)\*\*/g, '\n\n🔹 $1\n')
+      .replace(/#### (.*?)(?=\n|$)/g, '\n\n🔹 $1\n')
+      // Convert **bold** to emphasized text
+      .replace(/\*\*(.*?)\*\*/g, '• $1')
+      // Convert --- to section dividers
+      .replace(/---/g, '\n' + '─'.repeat(40) + '\n')
+      // Improve bullet points
+      .replace(/- \*\*(.*?)\*\*:/g, '• $1:')
+      .replace(/- (.*?):/g, '• $1:')
+      // Add spacing around numbered lists
+      .replace(/(\d+)\. \*\*(.*?)\*\*/g, '\n$1. $2')
+      .replace(/(\d+)\. (.*?)(?=\n|$)/g, '\n$1. $2')
+      // Clean up multiple newlines
+      .replace(/\n{3,}/g, '\n\n')
+      .trim();
+  };
+
   return (
     <div className={cn(
-      "flex gap-3 max-w-4xl mx-auto p-4",
+      "flex gap-3 max-w-4xl mx-auto px-4 py-2",
       isUser ? "flex-row-reverse" : "flex-row"
     )}>
       <div className={cn(
         "w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0",
-        isUser ? "bg-[#0071CE] text-white" : "bg-gray-100 text-gray-600"
+        isUser ? "bg-[#0071CE] text-white" : "bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300"
       )}>
         {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
       </div>
       
       <div className={cn(
-        "max-w-[75%] space-y-2",
+        "max-w-[85%] space-y-2",
         isUser ? "text-right" : "text-left"
       )}>
         <div className={cn(
-          "rounded-2xl px-4 py-3 text-sm leading-relaxed",
+          "rounded-2xl px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap break-words",
           isUser 
-            ? "bg-[#0071CE] text-white rounded-tr-sm" 
-            : "bg-gray-100 text-gray-800 rounded-tl-sm"
+            ? cn(
+                "text-white rounded-tr-sm",
+                isVoiceMessage 
+                  ? "bg-gradient-to-r from-[#0071CE] to-[#004f91]" // Gradient for voice messages
+                  : "bg-[#0071CE]" // Solid color for text messages
+              )
+            : "bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 rounded-tl-sm"
         )}>
-          {message}
+          {formatMessage(message)}
         </div>
         
-        <div className="flex items-center gap-2 text-xs text-gray-500">
+        <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
           <span>{timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+          
+          {/* Voice message indicator */}
+          {isUser && isVoiceMessage && (
+            <div className="flex items-center gap-1 text-xs text-gray-400 dark:text-gray-500" title="Voice message">
+              <Mic className="w-3 h-3" />
+              <span>Voice</span>
+            </div>
+          )}
           
           {!isUser && (
             <VoiceResponsePlayer text={message} language={language} />
@@ -62,14 +103,14 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
           {!isUser && onFeedback && (
             <div className="flex items-center gap-1 ml-1">
               {!feedbackGiven && (
-                <span className="text-xs text-gray-400 mr-1">Was this helpful?</span>
+                <span className="text-xs text-gray-400 dark:text-gray-500 mr-1">Was this helpful?</span>
               )}
               <button
                 onClick={() => handleFeedback(true)}
                 disabled={feedbackGiven}
                 className={cn(
-                  "p-1 rounded hover:bg-gray-200 transition-colors",
-                  feedbackGiven && feedbackType === 'positive' ? "text-green-600 bg-green-50" : "",
+                  "p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors",
+                  feedbackGiven && feedbackType === 'positive' ? "text-green-600 bg-green-50 dark:bg-green-900/30" : "",
                   feedbackGiven && feedbackType !== 'positive' ? "opacity-50 cursor-not-allowed" : "hover:text-green-600"
                 )}
                 aria-label="Helpful response"
@@ -80,8 +121,8 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
                 onClick={() => handleFeedback(false)}
                 disabled={feedbackGiven}
                 className={cn(
-                  "p-1 rounded hover:bg-gray-200 transition-colors",
-                  feedbackGiven && feedbackType === 'negative' ? "text-red-600 bg-red-50" : "",
+                  "p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors",
+                  feedbackGiven && feedbackType === 'negative' ? "text-red-600 bg-red-50 dark:bg-red-900/30" : "",
                   feedbackGiven && feedbackType !== 'negative' ? "opacity-50 cursor-not-allowed" : "hover:text-red-600"
                 )}
                 aria-label="Not helpful response"
@@ -92,7 +133,7 @@ export const ChatMessage: React.FC<ChatMessageProps> = ({
           )}
           
           {feedbackGiven && (
-            <span className="text-xs text-gray-400 ml-2">
+            <span className="text-xs text-gray-400 dark:text-gray-500 ml-2">
               Thank you for your feedback!
             </span>
           )}
