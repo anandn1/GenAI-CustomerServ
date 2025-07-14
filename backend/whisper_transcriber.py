@@ -5,6 +5,7 @@ import pyaudio
 import numpy as np
 import time
 import keyboard
+import tempfile
 
 def transcribe_live(model_name="base"):
     """
@@ -53,6 +54,18 @@ def transcribe_live(model_name="base"):
         stream.stop_stream()
         stream.close()
         p.terminate()
+
+def transcribe_audio_file(audio_file_path, model_name="base"):
+    """
+    Transcribe a given audio file (wav/mp3/m4a/ogg/flac) using Whisper.
+    Returns the transcribed text.
+    """
+    model = whisper.load_model(model_name)
+    result = model.transcribe(audio_file_path, language="en")
+    return result['text']
+
+# Remove FastAPI app and endpoint from this file. All API routes should be defined in main.py for a clean architecture.
+# Only keep the core transcription functions here.
 
 # Example usage:
 # for text in transcribe_live():
