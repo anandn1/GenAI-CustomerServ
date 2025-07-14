@@ -4,11 +4,11 @@ import time
 import pandas as pd
 from dotenv import load_dotenv
 from pinecone import Pinecone, ServerlessSpec
-from langchain_community.vectorstores import Pinecone as PineconeVectorStore
+from langchain_pinecone.vectorstores import Pinecone as PineconeVectorStore
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
-from langchain_community.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain_core.output_parsers import StrOutputParser
 from langdetect import detect, LangDetectException
@@ -33,7 +33,7 @@ if not pc.has_index(os.getenv("PINECONE_INDEX")):
         metric="cosine",
         spec=ServerlessSpec(cloud="aws", region="us-east-1"),
     )
-    time.sleep(60)
+    
 
 # Initialize components
 index = pc.Index(os.getenv("PINECONE_INDEX"))
@@ -43,7 +43,7 @@ embedding = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 llm = ChatOpenAI(
     openai_api_key=os.getenv("OPENROUTER_API_KEY"),
     openai_api_base="https://openrouter.ai/api/v1",
-    model="deepseek/deepseek-r1",
+    model_name="deepseek/deepseek-r1-0528-qwen3-8b",
     temperature=0.1,
     max_tokens=4000,
     default_headers={
@@ -56,7 +56,7 @@ try:
     vectorstore = PineconeVectorStore.from_existing_index(
         index_name=os.getenv("PINECONE_INDEX"),
         embedding=embedding,
-        pinecone_index=index  # Pass the initialized index
+       # pinecone_index=index  # Pass the initialized index
     )
     retriever = vectorstore.as_retriever(search_kwargs={"k": 5})
 except Exception as e:
@@ -135,10 +135,11 @@ def get_smart_answer(query: str, chat_history: list):
 
         # For these RAG-based tasks, we use the main conversational chain.
         # Its detailed system prompt is robust enough to handle comparisons and guides well.
+        #result = conversational_rag_chain.invoke({"input": query_en, "chat_history": chat_history})
         result = conversational_rag_chain.invoke({"input": query_en, "chat_history": chat_history})
         answer = result["answer"]
         sources = result.get("context", [])
-
+       
         if original_lang != 'en':
             answer = translate_text(answer, original_lang)
 
