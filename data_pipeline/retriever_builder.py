@@ -9,6 +9,9 @@ from dotenv import load_dotenv
 from langchain.vectorstores import Pinecone as PineconeLangChain
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from pinecone import Pinecone as PineconeClient # Import the main client
+from langchain.prompts import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.chat_models import ChatOpenAI
 
 # --- INITIALIZATION ---
 load_dotenv()
@@ -48,29 +51,52 @@ def get_configured_retriever(k_value: int = 5, score_threshold: float = 0.50):
         embedding_model = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
         # 3. Connect to the existing Pinecone index using the LangChain wrapper.
-        # LangChain's Pinecone wrapper handles the new client initialization internally.
-        # You just need to pass the index name directly.
         vectorstore = PineconeLangChain.from_existing_index(
             index_name=PINECONE_INDEX,
             embedding=embedding_model
         )
 
-        # 4. Configure and return the retriever
-        retriever = vectorstore.as_retriever(
-            search_type="similarity_score_threshold",
-            search_kwargs={
-                "k": k_value,
-                "score_threshold": score_threshold
-            }
-        )
-        print("✅ Pinecone retriever configured successfully using modern client.")
-        return retriever
+        # 4. Return the vectorstore itself so the caller can fetch documents directly
+        print("✅ Pinecone vectorstore loaded successfully using modern client.")
+        return vectorstore
 
     except Exception as e:
-        print(f"❌ Failed to build Pinecone retriever: {e}")
+        print(f"❌ Failed to build Pinecone vectorstore: {e}")
         # Add a helpful tip for the most common issue.
         print("   Hint: Ensure your PINECONE_API_KEY and PINECONE_INDEX environment variables are correct.")
         return None
+
+# --- OPENROUTER LLMCHAIN SETUP ---
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+OPENROUTER_BASE_URL = os.getenv("OPENROUTER_BASE_URL")
+YOUR_SITE_URL = os.getenv("YOUR_SITE_URL")
+YOUR_SITE_NAME = os.getenv("YOUR_SITE_NAME")
+
+openrouter_prompt_template = """Context:\n{context}\n\nQuestion: {question}\nAnswer: Let's think step by step."""
+openrouter_prompt = PromptTemplate(
+    template=openrouter_prompt_template,
+    input_variables=["context", "question"]
+)
+
+def get_openrouter_llm():
+    return ChatOpenAI(
+        openai_api_key=OPENROUTER_API_KEY,
+        openai_api_base=OPENROUTER_BASE_URL,
+        model_name="openrouter/auto",  # Replace with your preferred model
+    )
+
+def answer_question_with_rag(question, retriever, max_context_docs=4):
+    """
+    Retrieves relevant context using the retriever and answers the question using OpenRouter LLMChain.
+    """
+    # Retrieve relevant documents
+    docs = retriever.invoke(question)
+    if not docs:
+        return "No relevant context found."
+    # Concatenate context (truncate if too long)
+    context = "\n\n".join(doc.page_content for doc in docs[:max_context_docs])
+    llm_chain = LLMChain(prompt=openrouter_prompt, llm=get_openrouter_llm())
+    return llm_chain.run({"context": context, "question": question})
 
 # --- TESTING BLOCK ---
 if __name__ == "__main__":
@@ -91,11 +117,7 @@ if __name__ == "__main__":
             if retrieved_docs:
                 for i, doc in enumerate(retrieved_docs):
                     print(f"\n--- Document {i+1} ---")
-                    # The score is automatically included by LangChain when using this search type
                     score = doc.metadata.get('_score')
-                    # The v3 client might not add '_score' to metadata in the same way. Check the object.
-                    # A more robust way might be to get it from the tuple if the retriever returns one.
-                    # For now, this is a safe way to check.
                     if score is not None:
                         print(f"Score: {score:.4f}")
                     print(f"Content: {doc.page_content[:200]}...")
@@ -104,5 +126,10 @@ if __name__ == "__main__":
 
         except Exception as e:
             print(f"An error occurred during the test query: {e}")
+        
+        # --- Test the full RAG chain ---
+        print("\n--- Testing RAG LLMChain ---")
+        rag_answer = answer_question_with_rag("What is the return policy for electronics?", retriever)
+        print(f"\nRAG Answer: {rag_answer}")
     else:
         print("\nCould not perform test query because retriever setup failed.")

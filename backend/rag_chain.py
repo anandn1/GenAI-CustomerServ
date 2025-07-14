@@ -5,7 +5,8 @@ import pandas as pd
 from dotenv import load_dotenv
 from pinecone import Pinecone, ServerlessSpec
 from langchain_pinecone.vectorstores import Pinecone as PineconeVectorStore
-from langchain.chains import create_history_aware_retriever, create_retrieval_chain
+from langchain.chains.history_aware_retriever import create_history_aware_retriever
+from langchain.chains.retrieval import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_google_genai import GoogleGenerativeAIEmbeddings
 from langchain_openai import ChatOpenAI
@@ -71,6 +72,7 @@ def create_conversational_chain(retriever):
     return create_retrieval_chain(history_aware_retriever, question_answer_chain)
 
 
+
 conversational_rag_chain = create_conversational_chain(retriever)
 
 
@@ -128,17 +130,20 @@ def get_smart_answer(query: str, chat_history: list):
 
     if category in ["standard_rag", "comparison_rag", "guide_rag"]:
         if not conversational_rag_chain:
-            return "RAG chain is not initialized.", [], "error", chat_history
+            return "I apologize, but I'm currently unable to access my knowledge base. Please try again later or contact customer service directly.", [], "error", chat_history
 
         original_lang = detect_language(query)
         query_en = translate_text(query, 'en') if original_lang != 'en' else query
 
-        # For these RAG-based tasks, we use the main conversational chain.
-        # Its detailed system prompt is robust enough to handle comparisons and guides well.
-        #result = conversational_rag_chain.invoke({"input": query_en, "chat_history": chat_history})
-        result = conversational_rag_chain.invoke({"input": query_en, "chat_history": chat_history})
-        answer = result["answer"]
-        sources = result.get("context", [])
+        try:
+            # For these RAG-based tasks, we use the main conversational chain.
+            # Its detailed system prompt is robust enough to handle comparisons and guides well.
+            result = conversational_rag_chain.invoke({"input": query_en, "chat_history": chat_history})
+            answer = result["answer"]
+            sources = result.get("context", [])
+        except Exception as e:
+            print(f"Error invoking RAG chain: {e}")
+            return "I apologize, but I encountered an error while processing your request. Please try again or contact customer service.", [], "error", chat_history
        
         if original_lang != 'en':
             answer = translate_text(answer, original_lang)
@@ -228,7 +233,6 @@ if __name__ == "__main__":
     # for related prompts.
     # print("--- Running Test Suite ---")
     # run_all_tests("test_cases.csv")
-
     # Option 2: Run in interactive mode
     print("\n--- Interactive Mode ---")
     print("AI: Hello! I'm Wally, your Walmart support assistant. How can I help? (Type 'exit' to quit)")
