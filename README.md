@@ -6,11 +6,9 @@
 [![LangChain](https://img.shields.io/badge/LangChain-121212?style=for-the-badge&logo=chainlink&logoColor=white)](https://python.langchain.com/)
 [![Pinecone](https://img.shields.io/badge/Pinecone-000000?style=for-the-badge&logo=pinecone&logoColor=white)](https://www.pinecone.io/)
 
-## 🚀 Complete End-to-End RAG Customer Support System
+## 🚀 End-to-End RAG Customer Support System
 
-A production-ready AI-powered customer support system built for Walmart, featuring advanced RAG (Retrieval-Augmented Generation), voice integration, real-time chat, and comprehensive admin dashboard.
-
-### ✅ **FULLY INTEGRATED & WORKING**
+Built for the Walmart hackathon: a RAG (Retrieval-Augmented Generation) customer support prototype that answers questions from Walmart's published customer policies, with voice input, real-time chat, and an admin dashboard.
 
 ## 🔥 Key Features
 
@@ -34,8 +32,8 @@ A production-ready AI-powered customer support system built for Walmart, featuri
 - **Admin Dashboard** - System metrics and analytics
 - **Responsive Design** - Works on desktop and mobile
 
-### 🔧 Production-Ready Backend
-- **8 Comprehensive API Endpoints**
+### 🔧 Backend
+- **11 API Endpoints**
 - **FastAPI with Auto-Generated Docs**
 - **CORS Enabled** for frontend integration
 - **File Upload Support** with validation
@@ -48,7 +46,7 @@ A production-ready AI-powered customer support system built for Walmart, featuri
 │                 │    │                 │    │                 │
 │   React Frontend│◄──►│  FastAPI Backend│◄──►│   RAG Pipeline  │
 │                 │    │                 │    │                 │
-│  • Dark Mode    │    │  • 8 API Routes │    │  • Pinecone DB  │
+│  • Dark Mode    │    │ • 11 API Routes │    │  • Pinecone DB  │
 │  • Voice UI     │    │  • CORS Enabled │    │  • LangChain    │
 │  • Health Mon.  │    │  • File Upload  │    │  • OpenRouter   │
 │  • TypeScript   │    │  • Auto Docs    │    │  • Embeddings   │
@@ -112,16 +110,18 @@ npm run dev
 - `POST /api/chat` - RAG-powered chat responses
 - `POST /api/voice` - Audio file transcription + RAG
 - `POST /api/voice-live` - Live voice transcription
+- `POST /api/voice-stream` - Streaming voice transcription
 
 ### Data & Search  
 - `POST /api/langchain/retrieve` - Direct document retrieval
 - `GET /api/order-status/{user_id}` - Order status lookup
-- `POST /api/product-availability` - Product search
+- `GET /api/product-availability` - Product search
 - `POST /api/sentiment-check` - Sentiment analysis
 
 ### Admin & Monitoring
 - `GET /api/admin/metrics` - System metrics dashboard
 - `GET /api/health` - Health check endpoint
+- `GET /api/whisper/models` - Available Whisper models
 
 ## 🧪 Test the Integration
 
@@ -178,7 +178,7 @@ GenAI-CustomerServ/
 ## 🎯 Completed Features
 
 ### ✅ Backend Integration
-- [x] FastAPI server with 8 API endpoints
+- [x] FastAPI server with 11 API endpoints
 - [x] RAG chain with conversational memory
 - [x] Pinecone vector store integration
 - [x] Voice transcription (file + live)
@@ -206,30 +206,18 @@ GenAI-CustomerServ/
 - [x] Conversational memory
 - [x] OpenRouter LLM integration
 
-## 🔄 Recent Updates
+## ⚠️ Status
 
-- **✅ API Integration Complete**: All 8 endpoints integrated and tested
-- **✅ Dark Mode Added**: Beautiful theme switching with CSS variables
-- **✅ Voice Upload**: File upload support added to VoiceRecorder component
-- **✅ Health Monitoring**: Real-time backend connection status
-- **✅ Error Handling**: Unified error states across all API calls
-- **✅ Environment Config**: Proper .env setup for API URLs
-
-## 🚀 Production Ready
-
-This system is production-ready with:
-- Comprehensive error handling
-- Health monitoring
-- Scalable architecture
-- Security best practices
-- Documentation
-- Easy deployment
+This is a working prototype, not a production deployment:
+- Not deployed or load-tested
+- No automated test suite yet
+- Order status and product availability endpoints return sample data
 
 ## 📚 Documentation
 
 - **[Setup Guide](SETUP_GUIDE.md)** - Detailed setup instructions
 - **[API Docs](http://localhost:8000/docs)** - Interactive API documentation
-- **Demo Script** - Step-by-step usage examples
+- **[Demo Script](demo/demo_script.md)** - Step-by-step usage examples
 
 ## 🤝 Contributing
 
@@ -245,5 +233,5 @@ This project is licensed under the MIT License.
 
 ---
 
-**Walmart Whisper** - Next-Generation AI Customer Support  
+**Walmart Whisper** - AI customer support prototype  
 *Powered by FastAPI • React • LangChain • Pinecone • OpenRouter*
